@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  miapp:
+    image: jonatandeveloperdocker/node-web-app
+    ports:
+      - "10000:5112"
+    networks:
+      - jony
+    environment:
+      - MONGO_URI=mongodb://mimongo:27017
+    depends_on:
+      - mimongo
+    volumes:
+      - C:\paramongo:/probandodocker
+  mimongo:
+    image: mongo
+    ports:
+      - "10001:27017"
+    networks:
+      - jony
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8888:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mimongo:27017/
+    networks:
+      - jony
+
+networks:
+  jony:
